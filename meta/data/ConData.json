@@ -1,0 +1,419 @@
+{
+  "info": {
+    "title": "ConData",
+    "x-type": "odata",
+    "x-connector": "mssql",
+    "x-connector-version": 14
+  },
+  "definitions": {
+    "Gender": {
+      "x-table": "dbo.Genders",
+      "resource": "Genders",
+      "required": [
+        "GenderName"
+      ],
+      "properties": {
+        "GenderID": {
+          "x-key": true,
+          "x-identity": true,
+          "x-nullable": false,
+          "x-precision": 10,
+          "type": "integer",
+          "x-navigation": [
+            {
+              "inversePropertyName": "Gender",
+              "name": "MyFriends",
+              "type": "MyFriend"
+            }
+          ]
+        },
+        "GenderName": {
+          "x-nullable": false,
+          "type": "string",
+          "length": 50
+        },
+        "MyFriends": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MyFriend"
+          }
+        }
+      }
+    },
+    "MyFriend": {
+      "x-table": "dbo.MyFriends",
+      "resource": "MyFriends",
+      "required": [
+        "FirstName",
+        "Surname",
+        "GenderID"
+      ],
+      "properties": {
+        "FriendID": {
+          "x-key": true,
+          "x-identity": true,
+          "x-nullable": false,
+          "x-precision": 10,
+          "type": "integer"
+        },
+        "FirstName": {
+          "x-nullable": false,
+          "type": "string",
+          "length": 50
+        },
+        "MiddleName": {
+          "type": "string",
+          "length": 50
+        },
+        "Surname": {
+          "x-nullable": false,
+          "type": "string",
+          "length": 50
+        },
+        "Gender": {
+          "type": "object",
+          "$ref": "#/definitions/Gender"
+        },
+        "GenderID": {
+          "x-nullable": false,
+          "x-precision": 10,
+          "type": "integer",
+          "x-foreignKey": {
+            "parentTable": "Genders",
+            "parentEntityType": "Gender",
+            "type": "Gender",
+            "principalKey": "GenderID",
+            "name": "Gender",
+            "textProperty": "GenderName",
+            "navigationProperty": "MyFriends"
+          }
+        },
+        "WhatsappNumber": {
+          "type": "string",
+          "length": 50
+        },
+        "PhoneNumber2": {
+          "type": "string",
+          "length": 50
+        },
+        "Email": {
+          "type": "string",
+          "length": 50
+        }
+      }
+    }
+  },
+  "paths": {
+    "/Genders": {
+      "get": {
+        "operationId": "getGenders",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "$filter",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "$orderby",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "$expand",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "$top",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "$skip",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "$count",
+            "type": "boolean"
+          },
+          {
+            "in": "query",
+            "name": "$format",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "value": {
+                  "items": {
+                    "$ref": "#/definitions/Gender"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "default": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createGender",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Gender",
+            "schema": {
+              "$ref": "#/definitions/Gender"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/Gender"
+            }
+          },
+          "default": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/MyFriends": {
+      "get": {
+        "operationId": "getMyFriends",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "$filter",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "$orderby",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "$expand",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "$top",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "$skip",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "$count",
+            "type": "boolean"
+          },
+          {
+            "in": "query",
+            "name": "$format",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "properties": {
+                "value": {
+                  "items": {
+                    "$ref": "#/definitions/MyFriend"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "default": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createMyFriend",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "MyFriend",
+            "schema": {
+              "$ref": "#/definitions/MyFriend"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/MyFriend"
+            }
+          },
+          "default": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/Genders({GenderID})": {
+      "delete": {
+        "operationId": "deleteGender",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "GenderID",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {},
+          "default": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "getGenderByGenderID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "GenderID",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Gender"
+            }
+          },
+          "default": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateGender",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "GenderID",
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "Gender",
+            "schema": {
+              "$ref": "#/definitions/Gender"
+            }
+          }
+        ],
+        "responses": {
+          "204": {},
+          "default": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/MyFriends({FriendID})": {
+      "delete": {
+        "operationId": "deleteMyFriend",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "FriendID",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "204": {},
+          "default": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "getMyFriendByFriendID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "FriendID",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/MyFriend"
+            }
+          },
+          "default": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateMyFriend",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "FriendID",
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "MyFriend",
+            "schema": {
+              "$ref": "#/definitions/MyFriend"
+            }
+          }
+        ],
+        "responses": {
+          "204": {},
+          "default": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "basePath": "/odata/ConData",
+  "host": "localhost:5001",
+  "schemes": [
+    "https"
+  ]
+}

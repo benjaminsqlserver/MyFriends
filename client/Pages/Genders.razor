@@ -1,0 +1,41 @@
+﻿@page "/genders"
+@layout MainLayout
+@inherits AcheruFriends.Pages.GendersComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using AcheruFriends.Models.ConData
+@using Microsoft.AspNetCore.Identity;
+@using AcheruFriends.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles="SuperAdmin")]
+
+
+<RadzenContent Container="main">
+  <ChildContent>
+    <RadzenHeading Size="H1" Text="Genders">
+    </RadzenHeading>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@Button0Click">
+        </RadzenButton>
+        <RadzenTextBox Placeholder="Search ..." style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" @oninput="@(async(args) => {search = $"{args.Value}";await grid0.GoToPage(0);await grid0.Reload();})">
+        </RadzenTextBox>
+        <RadzenDataGrid @ref="grid0" AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" Data="@getGendersResult" Count="@getGendersCount" TItem="AcheruFriends.Models.ConData.Gender" LoadData="@Grid0LoadData" RowSelect="@Grid0RowSelect">
+          <Columns>
+            <RadzenDataGridColumn TItem="AcheruFriends.Models.ConData.Gender" Property="GenderID" Title="Gender ID">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AcheruFriends.Models.ConData.Gender" Property="GenderName" Title="Gender Name">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AcheruFriends.Models.ConData.Gender" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+              <Template Context="acheruFriendsModelsConDataGender">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@((args) =>GridDeleteButtonClick(args, acheruFriendsModelsConDataGender))" @onclick:stopPropagation="true">
+                </RadzenButton>
+              </Template>
+            </RadzenDataGridColumn>
+          </Columns>
+        </RadzenDataGrid>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>

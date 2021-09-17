@@ -1,0 +1,57 @@
+﻿@page "/"
+@page "/my-friends"
+@layout MainLayout
+@inherits AcheruFriends.Pages.MyFriendsComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using AcheruFriends.Models.ConData
+@using Microsoft.AspNetCore.Identity;
+@using AcheruFriends.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+
+<RadzenContent Container="main">
+  <ChildContent>
+    <RadzenHeading Size="H1" Text="My Friends">
+    </RadzenHeading>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Visible="@Security.IsInRole(new string[]{"SuperAdmin"})" Click="@Button0Click">
+        </RadzenButton>
+        <RadzenTextBox Placeholder="Search ..." style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" @oninput="@(async(args) => {search = $"{args.Value}";await grid0.GoToPage(0);await grid0.Reload();})">
+        </RadzenTextBox>
+        <RadzenDataGrid @ref="grid0" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Count="@getMyFriendsCount" Data="@getMyFriendsResult" FilterMode="FilterMode.Advanced" TItem="AcheruFriends.Models.ConData.MyFriend" LoadData="@Grid0LoadData" RowSelect="@Grid0RowSelect">
+          <Columns>
+            <RadzenDataGridColumn TItem="AcheruFriends.Models.ConData.MyFriend" Property="FriendID" Title="Friend ID">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AcheruFriends.Models.ConData.MyFriend" Property="FirstName" Title="First Name">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AcheruFriends.Models.ConData.MyFriend" Property="MiddleName" Title="Middle Name">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AcheruFriends.Models.ConData.MyFriend" Property="Surname" Title="Surname">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AcheruFriends.Models.ConData.MyFriend" FilterProperty="Gender.GenderName" GroupProperty="Gender.GenderName" Property="GenderID" SortProperty="Gender.GenderName" Title="Gender">
+              <Template Context="data">
+              @(data.Gender?.GenderName)
+              </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AcheruFriends.Models.ConData.MyFriend" Property="WhatsappNumber" Title="Whatsapp Number">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AcheruFriends.Models.ConData.MyFriend" Property="PhoneNumber2" Title="Phone Number 2">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AcheruFriends.Models.ConData.MyFriend" Property="Email" Title="Email">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AcheruFriends.Models.ConData.MyFriend" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Visible="@Security.IsInRole(new string[]{"SuperAdmin"})" Width="70px">
+              <Template Context="acheruFriendsModelsConDataMyFriend">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@((args) =>GridDeleteButtonClick(args, acheruFriendsModelsConDataMyFriend))" @onclick:stopPropagation="true">
+                </RadzenButton>
+              </Template>
+            </RadzenDataGridColumn>
+          </Columns>
+        </RadzenDataGrid>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>

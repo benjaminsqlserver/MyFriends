@@ -1,0 +1,66 @@
+{
+  "cssFiles": [],
+  "dataSources": [
+    "ConData"
+  ],
+  "generator": "@radzen/blazor-server",
+  "https": true,
+  "ignore": [
+    ""
+  ],
+  "javaScriptFiles": [],
+  "layouts": [
+    "Login",
+    "Main"
+  ],
+  "logo": "",
+  "name": "AcheruFriends",
+  "namespaces": [],
+  "navigation": [
+    "Genders",
+    "My Friends"
+  ],
+  "pages": [
+    "Genders",
+    "Add Gender",
+    "Edit Gender",
+    "My Friends",
+    "Add My Friend",
+    "Edit My Friend",
+    "Login",
+    "Application Users",
+    "Application Roles",
+    "Register Application User",
+    "Add Application User",
+    "Add Application Role",
+    "Edit Application User",
+    "Profile",
+    "Unauthorized"
+  ],
+  "port": 8000,
+  "pwa": true,
+  "security": {
+    "autoGeneratePages": true,
+    "dataSource": "ConData",
+    "duration": 5,
+    "emailConfirmation": false,
+    "layout": "Main",
+    "loginLayout": "Login",
+    "loginPage": "Login",
+    "provider": "default",
+    "sessionRefresh": false,
+    "smtpFrom": "",
+    "smtpPassword": "",
+    "smtpSSL": false,
+    "smtpServer": "",
+    "smtpUser": ""
+  },
+  "serverLang": "cs",
+  "serverPort": 5000,
+  "serverProject": true,
+  "serverVersion": "5",
+  "startPage": "My Friends",
+  "theme": "material-dark",
+  "title": "Acheru Friends",
+  "wasm": true
+}
